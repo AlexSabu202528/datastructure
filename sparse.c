@@ -2,7 +2,11 @@
 
 int main()
 {
-    int row1, colm1, row2, colm2,mat1[10][10], mat2[10][10],spar1[10][3], spar2[10][3], sparResult[10][3],i, j, k;
+    int row1, colm1, row2, colm2;
+    int mat1[10][10], mat2[10][10];
+    int spar1[100][3], spar2[100][3], sparResult[200][3];
+    int sparTranspose[200][3];
+    int i, j, k;
     printf("Enter rows and columns of first matrix: ");
     scanf("%d %d", &row1, &colm1);
     printf("Enter rows and columns of second matrix: ");
@@ -55,35 +59,32 @@ int main()
     {
         int r1 = spar1[p1][0], c1 = spar1[p1][1];
         int r2 = spar2[p2][0], c2 = spar2[p2][1];
+
         if(r1 < r2 || (r1 == r2 && c1 < c2))
         {
             sparResult[p3][0] = r1;
             sparResult[p3][1] = c1;
             sparResult[p3][2] = spar1[p1][2];
-            p1++;
-            p3++;
+            p1++; p3++;
         }
         else if(r2 < r1 || (r1 == r2 && c2 < c1))
         {
-
             sparResult[p3][0] = r2;
             sparResult[p3][1] = c2;
             sparResult[p3][2] = spar2[p2][2];
-            p2++;
-            p3++;
+            p2++; p3++;
         }
         else
         {
             int sum = spar1[p1][2] + spar2[p2][2];
-            if(sum != 0) 
+            if(sum != 0)
             {
                 sparResult[p3][0] = r1;
                 sparResult[p3][1] = c1;
                 sparResult[p3][2] = sum;
                 p3++;
             }
-            p1++;
-            p2++;
+            p1++; p2++;
         }
     }
     while(p1 < nonZero1)
@@ -93,6 +94,7 @@ int main()
         sparResult[p3][2] = spar1[p1][2];
         p1++; p3++;
     }
+
     while(p2 < nonZero2)
     {
         sparResult[p3][0] = spar2[p2][0];
@@ -100,10 +102,21 @@ int main()
         sparResult[p3][2] = spar2[p2][2];
         p2++; p3++;
     }
-    printf("\nResultant Sparse Matrix:\n");
+    printf("\nResultant Sparse Matrix (row col value):\n");
     for(i = 0; i < p3; i++)
     {
         printf("%d %d %d\n", sparResult[i][0], sparResult[i][1], sparResult[i][2]);
+    }
+    for(i = 0; i < p3; i++)
+    {
+        sparTranspose[i][0] = sparResult[i][1]; 
+        sparTranspose[i][1] = sparResult[i][0];
+        sparTranspose[i][2] = sparResult[i][2];
+    }
+    printf("\nTranspose of Resultant Sparse Matrix (row col value):\n");
+    for(i = 0; i < p3; i++)
+    {
+        printf("%d %d %d\n", sparTranspose[i][0], sparTranspose[i][1], sparTranspose[i][2]);
     }
 
     return 0;
